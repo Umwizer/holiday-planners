@@ -14,6 +14,10 @@ public class Trip{
         private Double price;
         @OneToMany(mappedBy = "trip")
         private List <TourImage> tourImage;
+        @OneToMany(mappedBy = "trip")
+        private List <Booking> booking;
+        @OneToMany(mappedBy ="trip")
+        private List <ItenaryDay> itenary;
         public Trip(UUID id, String title, String destination, Double price, List<TourImage> tourImage) {
             this.id = id;
             this.title = title;
