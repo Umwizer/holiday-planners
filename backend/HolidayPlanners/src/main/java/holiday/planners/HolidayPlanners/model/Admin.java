@@ -2,28 +2,36 @@ package holiday.planners.HolidayPlanners.model;
 
 import jakarta.persistence.*;
 import java.util.*;
+
 @Entity
 public class Admin {
+
     @Id
-    @GeneratedValue (strategy = GenerationType.UUID)
-    private UUID Id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
     private String email;
     private String userName;
-    @Column(name = "password" , nullable = false, length=8)
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    public Admin() {
+    }
+
     public Admin(UUID id, String email, String userName, String password) {
-        Id = id;
+        this.id = id;
         this.email = email;
         this.userName = userName;
         this.password = password;
     }
-    
+
     public UUID getId() {
-        return Id;
+        return id;
     }
 
     public void setId(UUID id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getEmail() {
@@ -52,10 +60,6 @@ public class Admin {
 
     @Override
     public String toString() {
-        return "Admin [Id=" + Id + ", email=" + email + ", userName=" + userName + ", password=" + password
-                + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-                + "]";
+        return "Admin [id=" + id + ", email=" + email + ", userName=" + userName + "]";
     }
-    
-    
 }

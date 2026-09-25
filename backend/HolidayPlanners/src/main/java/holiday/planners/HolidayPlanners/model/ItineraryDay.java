@@ -2,23 +2,27 @@ package holiday.planners.HolidayPlanners.model;
 
 import jakarta.persistence.*;
 import java.util.*;
+
 @Entity
 public class ItineraryDay {
-  
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    
-    private UUID Id;
+    private UUID id;
+
     private int dayNumber;
     private String title;
     private String description;
 
     @ManyToOne
-    @JoinColumn(name ="trip_id")
+    @JoinColumn(name = "trip_id")
     private Trip trip;
 
+    public ItineraryDay() {
+    }
+
     public ItineraryDay(UUID id, int dayNumber, String title, String description, Trip trip) {
-        Id = id;
+        this.id = id;
         this.dayNumber = dayNumber;
         this.title = title;
         this.description = description;
@@ -26,11 +30,11 @@ public class ItineraryDay {
     }
 
     public UUID getId() {
-        return Id;
+        return id;
     }
 
     public void setId(UUID id) {
-        Id = id;
+        this.id = id;
     }
 
     public int getDayNumber() {
@@ -64,5 +68,4 @@ public class ItineraryDay {
     public void setTrip(Trip trip) {
         this.trip = trip;
     }
-    
 }

@@ -21,19 +21,19 @@ public class Trip {
     private Integer durationDays;
 
     @OneToMany(mappedBy = "trip")
-    private List<TripImage> tourImage;
+    private List<TripImage> tripImages;
 
     @OneToMany(mappedBy = "trip")
     private List<Booking> booking;
 
     @OneToMany(mappedBy = "trip")
-    private List<ItineraryDay> itenary;
+    private List<ItineraryDay> itinerary;
 
     public Trip() {
     }
 
     public Trip(UUID id, String title, String description, String destination, Double price,
-                Integer discountPercent, Integer durationDays, List<TripImage> tourImage) {
+                Integer discountPercent, Integer durationDays, List<TripImage> tripImages) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -41,7 +41,7 @@ public class Trip {
         this.price = price;
         this.discountPercent = discountPercent;
         this.durationDays = durationDays;
-        this.tourImage = tourImage;
+        this.tripImages = tripImages;
     }
 
     public UUID getId() {
@@ -100,12 +100,12 @@ public class Trip {
         this.durationDays = durationDays;
     }
 
-    public List<TripImage> getTourImage() {
-        return tourImage;
+    public List<TripImage> getTripImages() {
+        return tripImages;
     }
 
-    public void setTourImage(List<TripImage> tourImage) {
-        this.tourImage = tourImage;
+    public void setTripImages(List<TripImage> tripImages) {
+        this.tripImages = tripImages;
     }
 
     public List<Booking> getBooking() {
@@ -116,11 +116,11 @@ public class Trip {
         this.booking = booking;
     }
 
-    public List<ItineraryDay> getItenary() {
-        return itenary;
+    public List<ItineraryDay> getItinerary() {
+        return itinerary;
     }
 
-    public void setItenary(List<ItineraryDay> itenary) {
-        this.itenary = itenary;
+    public void setItinerary(List<ItineraryDay> itinerary) {
+        this.itinerary = itinerary;
     }
 }

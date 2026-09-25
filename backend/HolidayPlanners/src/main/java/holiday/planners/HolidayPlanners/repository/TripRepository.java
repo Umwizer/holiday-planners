@@ -7,5 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface TripRepository extends JpaRepository<Trip, UUID> {
+
     List<Trip> findByDestinationContainingIgnoreCase(String destination);
 }

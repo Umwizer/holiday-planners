@@ -1,20 +1,24 @@
 package holiday.planners.HolidayPlanners.model;
+
 import jakarta.persistence.*;
-
-import jakarta.persistence.Entity;
 import java.util.*;
-@Entity
 
-public class TripImage{
+@Entity
+public class TripImage {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     private String imageCover;
     private Boolean isCover;
 
     @ManyToOne
-    @JoinColumn (name="trip_id")
+    @JoinColumn(name = "trip_id")
     private Trip trip;
+
+    public TripImage() {
+    }
 
     public TripImage(UUID id, String imageCover, Boolean isCover, Trip trip) {
         this.id = id;
