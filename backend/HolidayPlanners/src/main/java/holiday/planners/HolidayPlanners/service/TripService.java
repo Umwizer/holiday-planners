@@ -1,4 +1,4 @@
-package holiday.planners.HolidayPlanners.services;
+package holiday.planners.HolidayPlanners.service;
 
 import holiday.planners.HolidayPlanners.model.Trip;
 import holiday.planners.HolidayPlanners.repository.TripRepository;
@@ -23,6 +23,9 @@ public class TripService{
      }
      public Trip createTrip(Trip trip){
         return tripRepository.save(trip);
+     }
+     public void deleteTrip(UUID id) {
+       tripRepository.deleteById(id);
      }
      public Trip  updateTrip(UUID id,Trip updated){
         Trip existing = getTripById(id);

@@ -1,4 +1,4 @@
-package holiday.planners.HolidayPlanners.services;
+package holiday.planners.HolidayPlanners.service;
 
 import holiday.planners.HolidayPlanners.model.Trip;
 import holiday.planners.HolidayPlanners.model.TripImage;
