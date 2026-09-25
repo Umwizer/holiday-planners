@@ -3,7 +3,7 @@ package holiday.planners.HolidayPlanners.model;
 import jakarta.persistence.*;
 import java.util.*;
 @Entity
-public class ItenaryDay {
+public class ItineraryDay {
   
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -17,7 +17,7 @@ public class ItenaryDay {
     @JoinColumn(name ="trip_id")
     private Trip trip;
 
-    public ItenaryDay(UUID id, int dayNumber, String title, String description, Trip trip) {
+    public ItineraryDay(UUID id, int dayNumber, String title, String description, Trip trip) {
         Id = id;
         this.dayNumber = dayNumber;
         this.title = title;

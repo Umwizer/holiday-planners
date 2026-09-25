@@ -27,7 +27,7 @@ public class Trip {
     private List<Booking> booking;
 
     @OneToMany(mappedBy = "trip")
-    private List<ItenaryDay> itenary;
+    private List<ItineraryDay> itenary;
 
     public Trip() {
     }
@@ -116,11 +116,11 @@ public class Trip {
         this.booking = booking;
     }
 
-    public List<ItenaryDay> getItenary() {
+    public List<ItineraryDay> getItenary() {
         return itenary;
     }
 
-    public void setItenary(List<ItenaryDay> itenary) {
+    public void setItenary(List<ItineraryDay> itenary) {
         this.itenary = itenary;
     }
 }
