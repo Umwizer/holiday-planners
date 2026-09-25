@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import java.util.*;
 @Entity
 
-public class TourImage{
+public class TripImage{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -16,7 +16,7 @@ public class TourImage{
     @JoinColumn (name="trip_id")
     private Trip trip;
 
-    public TourImage(UUID id, String imageCover, Boolean isCover, Trip trip) {
+    public TripImage(UUID id, String imageCover, Boolean isCover, Trip trip) {
         this.id = id;
         this.imageCover = imageCover;
         this.isCover = isCover;

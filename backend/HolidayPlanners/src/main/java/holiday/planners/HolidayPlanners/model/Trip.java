@@ -21,7 +21,7 @@ public class Trip {
     private Integer durationDays;
 
     @OneToMany(mappedBy = "trip")
-    private List<TourImage> tourImage;
+    private List<TripImage> tourImage;
 
     @OneToMany(mappedBy = "trip")
     private List<Booking> booking;
@@ -33,7 +33,7 @@ public class Trip {
     }
 
     public Trip(UUID id, String title, String description, String destination, Double price,
-                Integer discountPercent, Integer durationDays, List<TourImage> tourImage) {
+                Integer discountPercent, Integer durationDays, List<TripImage> tourImage) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -100,11 +100,11 @@ public class Trip {
         this.durationDays = durationDays;
     }
 
-    public List<TourImage> getTourImage() {
+    public List<TripImage> getTourImage() {
         return tourImage;
     }
 
-    public void setTourImage(List<TourImage> tourImage) {
+    public void setTourImage(List<TripImage> tourImage) {
         this.tourImage = tourImage;
     }
 
