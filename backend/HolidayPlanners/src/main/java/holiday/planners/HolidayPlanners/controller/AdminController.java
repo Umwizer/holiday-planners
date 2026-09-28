@@ -1,29 +1,32 @@
 package holiday.planners.HolidayPlanners.controller;
 
-import holiday.planners.HolidayPlanners.model.Admin;
+import holiday.planners.HolidayPlanners.security.JwtService;
 import holiday.planners.HolidayPlanners.service.AdminService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.tags.Tag;
-@Tag(name="Admin Auth",description = "Admin Login")
+
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Admin Auth", description = "Admin login")
 public class AdminController {
 
     private final AdminService adminService;
-    public AdminController(AdminService adminService) {
+    private final JwtService jwtService;
+
+    public AdminController(AdminService adminService, JwtService jwtService) {
         this.adminService = adminService;
+        this.jwtService = jwtService;
     }
 
+    @Operation(summary = "Log in as admin and receive a JWT token")
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        Admin admin = adminService.findByUserName(request.getUserName());
-
-        if (!admin.getPassword().equals(request.getPassword())) {
-            return ResponseEntity.status(401).body("Invalid credentials");
-        }
-
-        return ResponseEntity.ok("Login successful");
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        return adminService.authenticate(request.getUserName(), request.getPassword())
+                .<ResponseEntity<?>>map(admin -> ResponseEntity.ok(
+                        new LoginResponse(jwtService.generateToken(admin.getUserName()), "Bearer")))
+                .orElseGet(() -> ResponseEntity.status(401).body("Invalid username or password"));
     }
 
     public static class LoginRequest {
@@ -34,5 +37,8 @@ public class AdminController {
         public void setUserName(String userName) { this.userName = userName; }
         public String getPassword() { return password; }
         public void setPassword(String password) { this.password = password; }
+    }
+
+    public record LoginResponse(String token, String type) {
     }
 }
