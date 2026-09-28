@@ -19,6 +19,20 @@ public class AdminService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public Admin register(String userName, String email, String rawPassword) {
+        if (adminRepository.existsByUserName(userName)) {
+            throw new IllegalArgumentException("Username already taken");
+        }
+        if (adminRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("Email already registered");
+        }
+        Admin admin = new Admin();
+        admin.setUserName(userName);
+        admin.setEmail(email);
+        admin.setPassword(passwordEncoder.encode(rawPassword));
+        return adminRepository.save(admin);
+    }
+
     public Optional<Admin> authenticate(String userName, String rawPassword) {
         return adminRepository.findByUserName(userName)
                 .filter(admin -> passwordEncoder.matches(rawPassword, admin.getPassword()));
