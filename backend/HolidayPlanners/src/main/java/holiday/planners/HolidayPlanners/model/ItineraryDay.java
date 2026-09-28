@@ -1,5 +1,6 @@
 package holiday.planners.HolidayPlanners.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.*;
 
@@ -16,6 +17,7 @@ public class ItineraryDay {
 
     @ManyToOne
     @JoinColumn(name = "trip_id")
+    @JsonIgnore
     private Trip trip;
 
     public ItineraryDay() {

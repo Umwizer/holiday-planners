@@ -4,7 +4,8 @@ import holiday.planners.HolidayPlanners.model.Admin;
 import holiday.planners.HolidayPlanners.service.AdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.tags.Tag;
+@Tag(name="Admin Auth",description = "Admin Login")
 @RestController
 @RequestMapping("/api/auth")
 public class AdminController {

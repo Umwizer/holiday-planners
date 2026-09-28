@@ -2,16 +2,18 @@ package holiday.planners.HolidayPlanners.controller;
 
 import holiday.planners.HolidayPlanners.model.TripImage;
 import holiday.planners.HolidayPlanners.service.TripImageService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@Tag(name = "Trip Images", description = "Manage the image gallery of a trip")
 @RestController
 @RequestMapping("/api/trips/{tripId}/images")
 public class TripImageController {
-
     private final TripImageService tripImageService;
 
     public TripImageController(TripImageService tripImageService) {

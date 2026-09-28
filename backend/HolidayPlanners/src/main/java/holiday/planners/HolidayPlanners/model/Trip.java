@@ -1,6 +1,8 @@
 package holiday.planners.HolidayPlanners.model;
 
 import java.util.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -21,12 +23,15 @@ public class Trip {
     private Integer durationDays;
 
     @OneToMany(mappedBy = "trip")
+    @JsonIgnoreProperties("trip")
     private List<TripImage> tripImages;
 
     @OneToMany(mappedBy = "trip")
+    @JsonIgnore
     private List<Booking> booking;
 
     @OneToMany(mappedBy = "trip")
+    @JsonIgnoreProperties("trip")
     private List<ItineraryDay> itinerary;
 
     public Trip() {

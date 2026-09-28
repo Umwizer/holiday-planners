@@ -2,12 +2,13 @@ package holiday.planners.HolidayPlanners.controller;
 
 import holiday.planners.HolidayPlanners.model.ItineraryDay;
 import holiday.planners.HolidayPlanners.service.ItineraryDayService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
-
+@Tag(name = "Itinerary", description = "Manage the day-by-day plan of a trip")
 @RestController
 @RequestMapping("/api/trips/{tripId}/itinerary")
 public class ItineraryDayController {

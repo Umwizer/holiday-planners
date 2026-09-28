@@ -4,10 +4,10 @@ import holiday.planners.HolidayPlanners.model.Booking;
 import holiday.planners.HolidayPlanners.service.BookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.UUID;
-
+@Tag(name = "Bookings", description = "Customer bookings and their status")    
 @RestController
 @RequestMapping("/api")
 public class BookingController {

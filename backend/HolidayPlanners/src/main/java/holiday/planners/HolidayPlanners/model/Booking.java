@@ -1,5 +1,6 @@
 package holiday.planners.HolidayPlanners.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.*;
 
@@ -21,6 +22,7 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "trip_id")
+    @JsonIgnoreProperties({"tripImages", "itinerary"})
     private Trip trip;
 
     public enum BookingStatus {

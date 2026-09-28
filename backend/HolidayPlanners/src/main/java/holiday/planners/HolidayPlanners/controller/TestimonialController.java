@@ -5,10 +5,10 @@ import holiday.planners.HolidayPlanners.service.TestimonialService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.UUID;
-
+@Tag(name = "Testimonials", description = "Customer reviews shown on the home page")
 @RestController
 @RequestMapping("/api/testimonials")
 public class TestimonialController {
