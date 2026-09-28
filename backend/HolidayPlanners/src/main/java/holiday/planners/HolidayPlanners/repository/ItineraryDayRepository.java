@@ -7,5 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ItineraryDayRepository extends JpaRepository<ItineraryDay, UUID> {
-  List<ItineraryDay> findByTourIdOrderByDayNumberAsc(UUID tourId);
+
+    List<ItineraryDay> findByTripIdOrderByDayNumberAsc(UUID tripId);
 }

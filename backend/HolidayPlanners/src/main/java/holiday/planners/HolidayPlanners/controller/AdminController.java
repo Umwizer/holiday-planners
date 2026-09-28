@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AdminService adminService;
-
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }

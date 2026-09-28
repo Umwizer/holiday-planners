@@ -8,5 +8,5 @@ import java.util.UUID;
 
 public interface TripImageRepository extends JpaRepository<TripImage, UUID> {
 
-    List<TripImage> findByTourId(UUID tourId);
+    List<TripImage> findByTripId(UUID tripId);
 }

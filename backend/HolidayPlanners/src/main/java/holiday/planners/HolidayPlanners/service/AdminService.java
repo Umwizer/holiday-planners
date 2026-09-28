@@ -13,8 +13,8 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
-    public Admin findByUserName(String username) {
-        return adminRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Admin not found: " + username));
+    public Admin findByUserName(String userName) {
+        return adminRepository.findByUserName(userName)
+                .orElseThrow(() -> new RuntimeException("Admin not found: " + userName));
     }
 }

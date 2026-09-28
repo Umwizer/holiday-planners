@@ -18,7 +18,7 @@ public class TripImageService {
     this.tripRepository = tripRepository;
   }
   public List <TripImage> getImagesForTrip(UUID tripId){
-    return tripImageRepository.findByTourId(tripId);
+    return tripImageRepository.findByTripId(tripId);
   }
   public TripImage addImage(UUID tripId , TripImage image){
     Trip trip = tripRepository.findById(tripId).orElseThrow(()-> new RuntimeException("Trip not found"));
