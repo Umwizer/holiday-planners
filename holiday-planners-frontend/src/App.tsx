@@ -4,13 +4,20 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Trips from "./pages/Trips";
 import TourDetails from "./pages/TourDetails";
+import AdminLogin from "./pages/AdminLogin";
+import AdminRegister from "./pages/AdminRegister";
+import AdminDashboard from "./pages/AdminDashboard";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const HomePage = Home as unknown as () => ReactElement;
 const AboutPage = About as unknown as () => ReactElement;
 const TripsPage = Trips as unknown as () => ReactElement;
 const TourDetailsPage = TourDetails as unknown as () => ReactElement;
+const AdminLoginPage = AdminLogin as unknown as () => ReactElement;
+const AdminRegisterPage = AdminRegister as unknown as () => ReactElement;
+const AdminDashboardPage = AdminDashboard as unknown as () => ReactElement;
 
 function App(): ReactElement {
   return (
@@ -22,6 +29,16 @@ function App(): ReactElement {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/trips" element={<TripsPage />} />
           <Route path="/trips/:id" element={<TourDetailsPage />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="/admin/register" element={<AdminRegisterPage />} />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
       <Footer />

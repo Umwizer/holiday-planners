@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
 import {
   FaEnvelope, FaPhoneAlt, FaFacebookF, FaInstagram, FaTwitter,
-  FaSearch, FaBars, FaMapMarkerAlt
+  FaSearch, FaBars, FaMapMarkerAlt,
 } from "react-icons/fa";
+
+const GOLD = "#c19a5b";
+const DARK = "#2b2b2b";
 
 export default function Navbar() {
   return (
-    <>
-      {/* Top bar */}
+    <header>
+      {/* Top strip */}
       <div style={{
-        background: "#2b2b2b", color: "#fff", fontSize: "0.85rem",
+        background: DARK, color: "#fff", fontSize: "0.85rem",
         display: "flex", justifyContent: "space-between",
         alignItems: "center", padding: "0.6rem 4rem"
       }}>
@@ -28,42 +31,49 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Main nav */}
-      <div style={{
+      {/* Main bar */}
+      <nav style={{
         background: "#fff", display: "flex", alignItems: "center",
         justifyContent: "space-between", padding: "0.9rem 4rem",
-        boxShadow: "0 1px 4px rgba(0,0,0,0.08)"
+        boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
+        position: "sticky", top: 0, zIndex: 100
       }}>
         <Link to="/" style={{ display: "flex", alignItems: "center", gap: "0.6rem", textDecoration: "none" }}>
-          <FaMapMarkerAlt style={{ color: "#c19a5b", fontSize: "1.8rem" }} />
-          <span style={{ fontWeight: 700, fontSize: "1.5rem", color: "#2b2b2b" }}>
-            Holiday <span style={{ color: "#c19a5b" }}>Planners</span>
+          <FaMapMarkerAlt style={{ color: GOLD, fontSize: "1.8rem" }} />
+          <span style={{ fontWeight: 700, fontSize: "1.5rem", color: DARK }}>
+            Holiday <span style={{ color: GOLD }}>Planners</span>
           </span>
         </Link>
 
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <Link to="/admin/login" style={{
+            color: DARK, textDecoration: "none", fontWeight: 600,
+            fontSize: "0.85rem", letterSpacing: "1px", padding: "0.8rem 0.5rem"
+          }}>
+            ADMIN
+          </Link>
           <Link to="/trips" className="btn-gold" style={{
             padding: "0.8rem 1.8rem", textDecoration: "none",
             fontWeight: 600, letterSpacing: "1px", fontSize: "0.85rem"
           }}>
             RESERVE
           </Link>
-          <button style={{
-            background: "transparent", border: "2px solid #2b2b2b",
+          <button aria-label="Search" style={{
+            background: "transparent", border: `2px solid ${DARK}`,
             borderRadius: "50%", width: "42px", height: "42px",
             cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"
           }}>
             <FaSearch />
           </button>
-          <button style={{
-            background: "#c19a5b", border: "none", borderRadius: "50%",
+          <button aria-label="Menu" style={{
+            background: GOLD, border: "none", borderRadius: "50%",
             width: "42px", height: "42px", cursor: "pointer", color: "#fff",
             display: "flex", alignItems: "center", justifyContent: "center"
           }}>
             <FaBars />
           </button>
         </div>
-      </div>
-    </>
+      </nav>
+    </header>
   );
 }

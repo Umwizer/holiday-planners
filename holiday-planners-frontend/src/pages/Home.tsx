@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FaMapMarkerAlt, FaCalendarAlt, FaFlag } from "react-icons/fa";
 import TrendingTours from "../components/TrendingTours";
 import Testimonials from "../components/Testimonial";
+
 const heroImages = [
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600",
   "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1600",
@@ -211,6 +212,8 @@ export default function Home() {
 
       {/* Trending Tours */}
       <TrendingTours />
+
+      {/* Testimonials */}
       <Testimonials />
     </>
   );
