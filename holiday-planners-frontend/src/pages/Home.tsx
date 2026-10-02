@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaMapMarkerAlt, FaCalendarAlt, FaFlag } from "react-icons/fa";
-
+import TrendingTours from "../components/TrendingTours";
+import Testimonials from "../components/Testimonial";
 const heroImages = [
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600",
   "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1600",
@@ -84,7 +85,6 @@ export default function Home() {
         display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem",
         maxWidth: "1200px", margin: "0 auto 6rem", padding: "0 2rem", alignItems: "center"
       }}>
-        {/* Overlapping images */}
         <div style={{ position: "relative", height: "480px" }}>
           <img
             src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800"
@@ -107,7 +107,6 @@ export default function Home() {
           />
         </div>
 
-        {/* Text */}
         <div>
           <p style={{
             color: "#c19a5b", marginBottom: "0.8rem",
@@ -141,73 +140,78 @@ export default function Home() {
           </Link>
         </div>
       </section>
-      {/* Amazing Destination */}
-<section style={{
-  padding: "4rem 2rem",
-  background: "#fafafa",
-  backgroundImage: "url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><path d=%22M0 100 Q 50 50 100 100 T 200 100%22 fill=%22none%22 stroke=%22%23eee%22 stroke-width=%221%22/></svg>')",
-}}>
-  <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-    <p style={{
-      color: "#c19a5b", marginBottom: "0.8rem",
-      borderLeft: "3px solid #c19a5b", paddingLeft: "0.8rem",
-      fontSize: "0.95rem", fontWeight: 500
-    }}>
-      Amazing Destination
-    </p>
-    <h2 style={{
-      fontFamily: "Georgia, serif", fontSize: "2.6rem",
-      marginBottom: "3rem", color: "#2b2b2b", lineHeight: 1.3, maxWidth: "600px"
-    }}>
-      Choose The Destination Just Right For Your <strong>Vacation</strong>
-    </h2>
 
-    <div style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(3, 1fr)",
-      gap: "1.5rem"
-    }}>
-      {[
-        { name: "Thailand", img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800" },
-        { name: "Switzerland", img: "https://images.unsplash.com/photo-1531210483974-4f8c1f33fd35?w=800" },
-        { name: "India", img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800" },
-      ].map(dest => (
-        <div key={dest.name} style={{
-          position: "relative", height: "420px", overflow: "hidden",
-          cursor: "pointer"
-        }}>
-          <img
-            src={dest.img}
-            alt={dest.name}
-            style={{
-              width: "100%", height: "100%", objectFit: "cover",
-              transition: "transform 0.5s"
-            }}
-            onMouseOver={e => (e.currentTarget.style.transform = "scale(1.08)")}
-            onMouseOut={e => (e.currentTarget.style.transform = "scale(1)")}
-          />
-          <div style={{
-            position: "absolute", bottom: "30px", left: "30px",
-            background: "#fff", padding: "0.8rem 1.5rem",
-            fontFamily: "Georgia, serif", fontSize: "1.4rem",
-            color: "#2b2b2b", boxShadow: "0 5px 20px rgba(0,0,0,0.15)"
+      {/* Amazing Destination */}
+      <section style={{
+        padding: "4rem 2rem",
+        background: "#fafafa",
+        backgroundImage: "url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><path d=%22M0 100 Q 50 50 100 100 T 200 100%22 fill=%22none%22 stroke=%22%23eee%22 stroke-width=%221%22/></svg>')",
+      }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <p style={{
+            color: "#c19a5b", marginBottom: "0.8rem",
+            borderLeft: "3px solid #c19a5b", paddingLeft: "0.8rem",
+            fontSize: "0.95rem", fontWeight: 500
           }}>
-            {dest.name}
+            Amazing Destination
+          </p>
+          <h2 style={{
+            fontFamily: "Georgia, serif", fontSize: "2.6rem",
+            marginBottom: "3rem", color: "#2b2b2b", lineHeight: 1.3, maxWidth: "600px"
+          }}>
+            Choose The Destination Just Right For Your <strong>Vacation</strong>
+          </h2>
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "1.5rem"
+          }}>
+            {[
+              { name: "Thailand", img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800" },
+              { name: "Switzerland", img: "https://images.unsplash.com/photo-1531210483974-4f8c1f33fd35?w=800" },
+              { name: "India", img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800" },
+            ].map(dest => (
+              <div key={dest.name} style={{
+                position: "relative", height: "420px", overflow: "hidden",
+                cursor: "pointer"
+              }}>
+                <img
+                  src={dest.img}
+                  alt={dest.name}
+                  style={{
+                    width: "100%", height: "100%", objectFit: "cover",
+                    transition: "transform 0.5s"
+                  }}
+                  onMouseOver={e => (e.currentTarget.style.transform = "scale(1.08)")}
+                  onMouseOut={e => (e.currentTarget.style.transform = "scale(1)")}
+                />
+                <div style={{
+                  position: "absolute", bottom: "30px", left: "30px",
+                  background: "#fff", padding: "0.8rem 1.5rem",
+                  fontFamily: "Georgia, serif", fontSize: "1.4rem",
+                  color: "#2b2b2b", boxShadow: "0 5px 20px rgba(0,0,0,0.15)"
+                }}>
+                  {dest.name}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: "3rem" }}>
+            <Link to="/trips" className="btn-gold" style={{
+              display: "inline-block", padding: "0.9rem 2.5rem",
+              textDecoration: "none", fontWeight: 700, letterSpacing: "1px", fontSize: "0.85rem"
+            }}>
+              VIEW ALL
+            </Link>
           </div>
         </div>
-      ))}
-    </div>
+      </section>
 
-    <div style={{ textAlign: "center", marginTop: "3rem" }}>
-      <Link to="/trips" className="btn-gold" style={{
-        display: "inline-block", padding: "0.9rem 2.5rem",
-        textDecoration: "none", fontWeight: 700, letterSpacing: "1px", fontSize: "0.85rem"
-      }}>
-        VIEW ALL
-      </Link>
-    </div>
-  </div>
-</section>
+      {/* Trending Tours */}
+      <TrendingTours />
+      <Testimonials />
     </>
   );
 }

@@ -11,3 +11,8 @@ export async function getTrip(id: string | number) {
   if (!res.ok) throw new Error("Failed to load trip");
   return res.json();
 }
+export async function getTestimonials() {
+  const res = await fetch(`${API_BASE}/api/testimonials`);
+  if (!res.ok) throw new Error("Failed to load testimonials");
+  return res.json();
+}
