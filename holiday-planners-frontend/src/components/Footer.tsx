@@ -32,9 +32,8 @@ export default function Footer() {
               flex: 1, padding: "0.8rem 1rem", background: "#3a3a3a",
               border: "none", color: "#fff", outline: "none"
             }} />
-            <button style={{
-              background: "#c19a5b", color: "#fff", border: "none",
-              padding: "0 1.5rem", fontWeight: 700, letterSpacing: "1px", cursor: "pointer"
+            <button className="btn-gold" style={{
+              padding: "0 1.5rem", fontWeight: 700, letterSpacing: "1px"
             }}>SUBMIT</button>
           </div>
         </div>

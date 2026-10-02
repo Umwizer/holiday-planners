@@ -5,3 +5,25 @@
   --color-ink:#141414;
   --font-serif:"Cormorant Garamond",serif;
 }
+.btn-gold {
+  background: #c19a5b;
+  color: #fff;
+  transition: background 0.3s, color 0.3s;
+  cursor: pointer;
+  border: none;
+}
+.btn-gold:hover {
+  background: #111 !important;
+  color: #fff !important;
+}
+.btn-gold {
+  background: #c19a5b;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.btn-gold:hover {
+  background: #111 !important;
+  color: #fff !important;
+}

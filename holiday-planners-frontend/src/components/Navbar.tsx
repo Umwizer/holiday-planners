@@ -42,9 +42,9 @@ export default function Navbar() {
         </Link>
 
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Link to="/trips" style={{
-            background: "#c19a5b", color: "#fff", padding: "0.8rem 1.8rem",
-            textDecoration: "none", fontWeight: 600, letterSpacing: "1px", fontSize: "0.85rem"
+          <Link to="/trips" className="btn-gold" style={{
+            padding: "0.8rem 1.8rem", textDecoration: "none",
+            fontWeight: 600, letterSpacing: "1px", fontSize: "0.85rem"
           }}>
             RESERVE
           </Link>
