@@ -69,7 +69,7 @@ export default function AdminTestimonials() {
   };
 
   return (
-    <section style={{ maxWidth: "1200px", margin: "0 auto", padding: "3rem 2rem" }}>
+    <section style={{ maxWidth: "1200px", margin: "0 auto", padding: "10rem 2rem 3rem" }}>
       <Link to="/admin/dashboard" style={{
         display: "inline-flex", alignItems: "center", gap: "0.5rem",
         color: "#c19a5b", textDecoration: "none", fontWeight: 600, marginBottom: "1.5rem",
