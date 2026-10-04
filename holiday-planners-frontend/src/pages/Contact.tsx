@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaClock,
+  FaEnvelope,FaMapMarkerAlt, FaClock,
   FaFacebookF, FaInstagram, FaTwitter, FaCheckCircle, FaArrowLeft,
 } from "react-icons/fa";
 
@@ -26,11 +26,6 @@ const INFO = [
     icon: <FaMapMarkerAlt />,
     title: "Our Location",
     lines: ["KN 5 Rd, Kigali", "Rwanda"],
-  },
-  {
-    icon: <FaPhoneAlt />,
-    title: "Phone Number",
-    lines: ["+250 788 456 789", "+250 788 123 456"],
   },
   {
     icon: <FaEnvelope />,
@@ -168,14 +163,6 @@ export default function Contact() {
                   <ContactField label="Your Email *" type="email" value={form.email}
                     onChange={(v: string) => setForm({ ...form, email: v })} />
                 </div>
-
-                <div className="contact-form-row">
-                  <ContactField label="Phone Number" value={form.phone}
-                    onChange={(v: string) => setForm({ ...form, phone: v })} />
-                  <ContactField label="Subject" value={form.subject}
-                    onChange={(v: string) => setForm({ ...form, subject: v })} />
-                </div>
-
                 <div style={{ marginBottom: "1rem" }}>
                   <label style={labelStyle}>Message *</label>
                   <textarea
