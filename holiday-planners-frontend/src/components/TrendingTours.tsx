@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FaClock, FaUsers } from "react-icons/fa";
 import { getTrips } from "../api";
 
 type Trip = {
@@ -35,8 +36,8 @@ export default function TrendingTours() {
     t.tripImages?.[0]?.imageCover ??
     "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800";
 
-  const getLabel = (t: Trip) =>
-    t.destination || t.title || "Unknown";
+  const getCountry = (t: Trip) =>
+    (t.destination || t.title || "").split(",")[0].trim().toUpperCase();
 
   return (
     <section className="trending-section" style={{
@@ -88,44 +89,74 @@ export default function TrendingTours() {
           <>
             <div className="trending-grid">
               {tours.slice(start, start + visible).map(tour => (
-                <Link key={tour.id} to={`/trips/${tour.id}`} className="trend-card">
-                  {/* Image */}
+                <article key={tour.id} className="trend-card">
+                  {/* Image with overlays */}
                   <div className="trend-card-image-wrap">
                     <img
                       src={getImage(tour)}
-                      alt={getLabel(tour)}
+                      alt={tour.title}
                       className="trend-card-image"
                     />
 
-                    {/* Discount badge — tilted ribbon top-left */}
+                    {/* Tilted % off ribbon */}
                     {tour.discountPercent > 0 && (
                       <div className="trend-card-discount">
-                        <span>{tour.discountPercent}% off</span>
+                        {tour.discountPercent}% off
                       </div>
                     )}
+
+                    {/* Country badge bottom-left */}
+                    <div className="trend-card-country">
+                      {getCountry(tour)}
+                    </div>
                   </div>
 
-                  {/* Bottom label bar */}
-                  <div className="trend-card-footer">
-                    <span className="trend-card-name">{getLabel(tour)}</span>
-                    <span className="trend-card-price">${tour.price}</span>
+                  {/* Body */}
+                  <div className="trend-card-body">
+                    <h3 className="trend-card-title">{tour.title}</h3>
+                    <p className="trend-card-desc">{tour.description}</p>
+
+                    {/* Meta row */}
+                    <div className="trend-card-meta">
+                      <div className="trend-meta-item">
+                        <FaClock className="trend-meta-icon" />
+                        <div>
+                          <div className="trend-meta-label">Duration</div>
+                          <div className="trend-meta-value">
+                            {tour.durationDays} days
+                          </div>
+                        </div>
+                      </div>
+                      <div className="trend-meta-item">
+                        <FaUsers className="trend-meta-icon" />
+                        <div>
+                          <div className="trend-meta-label">Group Size</div>
+                          <div className="trend-meta-value">15+ People</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="trend-card-bottom">
+                      <span className="trend-card-price">${tour.price}</span>
+                      <Link to={`/trips/${tour.id}`} className="btn-gold trend-card-btn">
+                        BOOK NOW
+                      </Link>
+                    </div>
                   </div>
-                </Link>
+                </article>
               ))}
             </div>
 
             {/* Dots */}
-            <div style={{
-              display: "flex", justifyContent: "center",
-              gap: "0.6rem", marginTop: "2.5rem",
-            }}>
+            <div className="trend-dots">
               {Array.from({ length: maxStart + 1 }).map((_, i) => (
-                <button key={i} onClick={() => setStart(i)} style={{
-                  width: "12px", height: "12px", borderRadius: "50%",
-                  border: "2px solid #c19a5b",
-                  background: i === start ? "#c19a5b" : "transparent",
-                  cursor: "pointer", padding: 0,
-                }} />
+                <button
+                  key={i}
+                  onClick={() => setStart(i)}
+                  className={`trend-dot ${i === start ? "active" : ""}`}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
               ))}
             </div>
           </>

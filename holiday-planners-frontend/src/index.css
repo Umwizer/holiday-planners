@@ -323,9 +323,7 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   transition: box-shadow 0.4s;
 }
-.dest-card:hover {
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
-}
+.dest-card:hover { box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18); }
 
 .dest-card-img {
   width: 100%;
@@ -334,9 +332,7 @@ img { max-width: 100%; height: auto; }
   transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
   display: block;
 }
-.dest-card:hover .dest-card-img {
-  transform: scale(1.08);
-}
+.dest-card:hover .dest-card-img { transform: scale(1.08); }
 
 .dest-card-overlay {
   position: absolute;
@@ -378,9 +374,7 @@ img { max-width: 100%; height: auto; }
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   transition: transform 0.4s;
 }
-.dest-card:hover .dest-card-name {
-  transform: translateY(-4px);
-}
+.dest-card:hover .dest-card-name { transform: translateY(-4px); }
 
 .dest-card-price {
   font-size: 0.9rem;
@@ -391,10 +385,7 @@ img { max-width: 100%; height: auto; }
   transform: translateY(10px);
   transition: opacity 0.4s, transform 0.4s;
 }
-.dest-card:hover .dest-card-price {
-  opacity: 1;
-  transform: translateY(0);
-}
+.dest-card:hover .dest-card-price { opacity: 1; transform: translateY(0); }
 
 .dest-card-arrow {
   position: absolute;
@@ -456,9 +447,150 @@ img { max-width: 100%; height: auto; }
   gap: 2rem !important;
 }
 
+/* Card */
+.trend-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.06);
+  transition: transform 0.35s, box-shadow 0.35s;
+}
+.trend-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+}
+
+/* Image */
+.trend-card-image-wrap {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+}
+.trend-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.trend-card:hover .trend-card-image { transform: scale(1.06); }
+
+/* Tilted % off ribbon — top-left */
+.trend-card-discount {
+  position: absolute;
+  top: 22px;
+  left: -42px;
+  width: 140px;
+  padding: 6px 0;
+  background: #c19a5b;
+  color: #fff;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transform: rotate(-45deg);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+  z-index: 2;
+}
+
+/* Country badge — bottom-left */
+.trend-card-country {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: #c19a5b;
+  color: #fff;
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  z-index: 2;
+}
+
+/* Body */
+.trend-card-body {
+  padding: 1.5rem 1.5rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.trend-card-title {
+  font-family: "Georgia", serif;
+  font-size: 1.15rem;
+  line-height: 1.4;
+  color: #2b2b2b;
+  margin: 0 0 0.7rem;
+}
+.trend-card-desc {
+  color: #777;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  margin: 0 0 1.2rem;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Meta row */
+.trend-card-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 1.2rem;
+}
+.trend-meta-item { display: flex; align-items: center; gap: 0.6rem; }
+.trend-meta-icon { color: #c19a5b; font-size: 1.05rem; flex-shrink: 0; }
+.trend-meta-label { font-size: 0.72rem; color: #999; margin-bottom: 0.15rem; }
+.trend-meta-value { font-size: 0.85rem; font-weight: 600; color: #2b2b2b; }
+
+/* Bottom row */
+.trend-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+.trend-card-price {
+  font-family: "Georgia", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2b2b2b;
+}
+.trend-card-btn {
+  padding: 0.7rem 1.4rem;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+}
+
+/* Dots */
+.trend-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 2.5rem;
+}
+.trend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #c19a5b;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s;
+}
+.trend-dot.active { background: #c19a5b; }
+
 @media (max-width: 768px) {
   .trending-section { padding: 2.5rem 1rem !important; }
   .trending-grid { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+  .trend-card-image-wrap { height: 230px; }
 }
 
 /* ========== TESTIMONIALS ========== */
