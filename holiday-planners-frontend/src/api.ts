@@ -103,3 +103,19 @@ export async function deleteTestimonial(id: string) {
   });
   if (!res.ok) throw new Error("Failed to delete testimonial");
 }
+/* ---------- Public booking ---------- */
+export async function createBooking(tripId: string, data: {
+  customerName: string;
+  email: string;
+  phone: string;
+  travelDate: string;
+  numberOfPeople: number;
+}) {
+  const res = await fetch(`${API_BASE}/api/trips/${tripId}/bookings`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...data, status: "PENDING" }),
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}

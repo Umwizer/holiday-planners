@@ -461,3 +461,19 @@ img { max-width: 100%; height: auto; }
     padding: 0.6rem 0.4rem !important;
   }
 }
+/* ========== TRIP DETAILS RESPONSIVE ========== */
+@media (max-width: 900px) {
+  /* Stack details and booking form */
+  section > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (max-width: 900px) {
+  .trip-details-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .trip-details-grid > aside {
+    position: static !important;
+  }
+}
