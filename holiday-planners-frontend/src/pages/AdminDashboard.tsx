@@ -51,7 +51,6 @@ export default function AdminDashboard() {
     try {
       await updateBookingStatus(id, newStatus);
     } catch {
-      // revert on failure
       getBookings().then(setBookings).catch(() => {});
     }
   };
@@ -96,8 +95,13 @@ export default function AdminDashboard() {
         </button>
       </div>
 
-      {/* Stat cards */}
-      <div className="admin-stats">
+      {/* Stat cards — HORIZONTAL on desktop */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(4, 1fr)",
+        gap: "1.5rem",
+        marginBottom: "3rem",
+      }}>
         <StatCard label="Total Bookings" value={counts.total} color="#c19a5b" icon={<FaCalendarCheck />} />
         <StatCard label="Pending" value={counts.pending} color="#ff9800" icon={<FaClock />} />
         <StatCard label="Confirmed" value={counts.confirmed} color="#4caf50" icon={<FaCheckCircle />} />
@@ -119,7 +123,6 @@ export default function AdminDashboard() {
               fontSize: "0.8rem",
               fontWeight: 600,
               cursor: "pointer",
-              transition: "all 0.2s",
             }}
           >
             {s}
@@ -214,6 +217,7 @@ function StatCard({ label, value, color, icon }: {
       background: "#fff", padding: "1.8rem",
       boxShadow: "0 5px 20px rgba(0,0,0,0.06)",
       display: "flex", alignItems: "center", gap: "1.2rem",
+      minWidth: 0,
     }}>
       <div style={{
         background: color, color: "#fff",
@@ -221,9 +225,9 @@ function StatCard({ label, value, color, icon }: {
         display: "flex", alignItems: "center", justifyContent: "center",
         fontSize: "1.3rem", flexShrink: 0,
       }}>{icon}</div>
-      <div>
+      <div style={{ minWidth: 0 }}>
         <div style={{ fontSize: "1.8rem", fontWeight: 700, color: "#2b2b2b" }}>{value}</div>
-        <div style={{ fontSize: "0.85rem", color: "#888" }}>{label}</div>
+        <div style={{ fontSize: "0.85rem", color: "#888", whiteSpace: "nowrap" }}>{label}</div>
       </div>
     </div>
   );
