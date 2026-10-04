@@ -95,10 +95,10 @@ export default function AdminDashboard() {
         </button>
       </div>
 
-      {/* Stat cards — HORIZONTAL on desktop */}
+      {/* Stat cards — pure inline grid, horizontal on desktop */}
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
+        gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
         gap: "1.5rem",
         marginBottom: "3rem",
       }}>
@@ -214,20 +214,24 @@ function StatCard({ label, value, color, icon }: {
 }) {
   return (
     <div style={{
-      background: "#fff", padding: "1.8rem",
+      background: "#fff", padding: "1.5rem",
       boxShadow: "0 5px 20px rgba(0,0,0,0.06)",
-      display: "flex", alignItems: "center", gap: "1.2rem",
+      display: "flex", alignItems: "center", gap: "1rem",
       minWidth: 0,
     }}>
       <div style={{
         background: color, color: "#fff",
-        width: "55px", height: "55px", borderRadius: "50%",
+        width: "50px", height: "50px", borderRadius: "50%",
         display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: "1.3rem", flexShrink: 0,
+        fontSize: "1.2rem", flexShrink: 0,
       }}>{icon}</div>
       <div style={{ minWidth: 0 }}>
-        <div style={{ fontSize: "1.8rem", fontWeight: 700, color: "#2b2b2b" }}>{value}</div>
-        <div style={{ fontSize: "0.85rem", color: "#888", whiteSpace: "nowrap" }}>{label}</div>
+        <div style={{ fontSize: "1.6rem", fontWeight: 700, color: "#2b2b2b", lineHeight: 1.2 }}>
+          {value}
+        </div>
+        <div style={{ fontSize: "0.8rem", color: "#888", whiteSpace: "nowrap" }}>
+          {label}
+        </div>
       </div>
     </div>
   );
