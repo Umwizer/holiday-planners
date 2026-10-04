@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   FaEnvelope, FaPhoneAlt, FaFacebookF, FaInstagram, FaTwitter,
-  FaSearch, FaBars, FaMapMarkerAlt, FaTimes, FaChevronDown,
+  FaSearch, FaMapMarkerAlt, FaTimes, FaChevronDown,
 } from "react-icons/fa";
 
-const GOLD = "#c19a5b";
+// const GOLD = "#c19a5b";
 
 const MENU_LINKS = [
   { to: "/", label: "Home" },
