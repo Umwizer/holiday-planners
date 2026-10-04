@@ -10,7 +10,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import AdminTrips from "./pages/AdminTrips";
+import AdminTestimonials from "./pages/AdminTestimonials";
 const HomePage = Home as unknown as () => ReactElement;
 const AboutPage = About as unknown as () => ReactElement;
 const TripsPage = Trips as unknown as () => ReactElement;
@@ -18,13 +19,20 @@ const TourDetailsPage = TourDetails as unknown as () => ReactElement;
 const AdminLoginPage = AdminLogin as unknown as () => ReactElement;
 const AdminRegisterPage = AdminRegister as unknown as () => ReactElement;
 const AdminDashboardPage = AdminDashboard as unknown as () => ReactElement;
-
+const AdminTripsPage = AdminTrips as unknown as () => ReactElement;
+const AdminTestimonialsPage = AdminTestimonials as unknown as () => ReactElement;
 function App(): ReactElement {
   return (
     <>
       <Navbar />
       <main style={{ minHeight: "80vh" }}>
         <Routes>
+          <Route path="/admin/trips" element={
+            <ProtectedRoute><AdminTripsPage /></ProtectedRoute>
+        } />
+      <Route path="/admin/testimonials" element={
+        <ProtectedRoute><AdminTestimonialsPage /></ProtectedRoute>
+      } />
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/trips" element={<TripsPage />} />
