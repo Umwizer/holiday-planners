@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaMapMarkerAlt, FaCalendarAlt, FaFlag } from "react-icons/fa";
 import TrendingTours from "../components/TrendingTours";
 import Testimonials from "../components/Testimonial";
@@ -11,12 +11,26 @@ const heroImages = [
 ];
 
 export default function Home() {
+  const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
+
+  // Search state
+  const [destination, setDestination] = useState("");
+  const [duration, setDuration] = useState("");
+  const [travelType, setTravelType] = useState("");
 
   useEffect(() => {
     const id = setInterval(() => setCurrent(c => (c + 1) % heroImages.length), 4000);
     return () => clearInterval(id);
   }, []);
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (destination.trim()) params.set("search", destination.trim());
+    if (duration) params.set("duration", duration);
+    if (travelType) params.set("type", travelType);
+    navigate(`/trips${params.toString() ? `?${params}` : ""}`);
+  };
 
   return (
     <>
@@ -56,23 +70,74 @@ export default function Home() {
         background: "#fff", position: "relative", zIndex: 2,
         boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", border: "1px solid #ddd", padding: "0 1rem" }}>
+        <div style={{
+          display: "flex", alignItems: "center", gap: "0.6rem",
+          border: "1px solid #ddd", padding: "0 1rem",
+        }}>
           <FaMapMarkerAlt style={{ color: "#c19a5b" }} />
-          <input placeholder="Where To?" style={{ flex: 1, padding: "0.9rem 0", border: "none", outline: "none", minWidth: 0 }} />
+          <input
+            placeholder="Where To?"
+            value={destination}
+            onChange={e => setDestination(e.target.value)}
+            style={{
+              flex: 1, padding: "0.9rem 0",
+              border: "none", outline: "none", minWidth: 0,
+            }}
+          />
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", border: "1px solid #ddd", padding: "0 1rem" }}>
+
+        <div style={{
+          display: "flex", alignItems: "center", gap: "0.6rem",
+          border: "1px solid #ddd", padding: "0 1rem",
+        }}>
           <FaCalendarAlt style={{ color: "#c19a5b" }} />
-          <select style={{ flex: 1, padding: "0.9rem 0", border: "none", outline: "none", background: "transparent", minWidth: 0 }}>
-            <option>When?</option>
+          <select
+            value={duration}
+            onChange={e => setDuration(e.target.value)}
+            style={{
+              flex: 1, padding: "0.9rem 0",
+              border: "none", outline: "none",
+              background: "transparent", minWidth: 0,
+            }}
+          >
+            <option value="">Any Duration</option>
+            <option value="short">Short (1–2 days)</option>
+            <option value="medium">Medium (3–5 days)</option>
+            <option value="long">Long (6+ days)</option>
           </select>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", border: "1px solid #ddd", padding: "0 1rem" }}>
+
+        <div style={{
+          display: "flex", alignItems: "center", gap: "0.6rem",
+          border: "1px solid #ddd", padding: "0 1rem",
+        }}>
           <FaFlag style={{ color: "#c19a5b" }} />
-          <select style={{ flex: 1, padding: "0.9rem 0", border: "none", outline: "none", background: "transparent", minWidth: 0 }}>
-            <option>Travel Type</option>
+          <select
+            value={travelType}
+            onChange={e => setTravelType(e.target.value)}
+            style={{
+              flex: 1, padding: "0.9rem 0",
+              border: "none", outline: "none",
+              background: "transparent", minWidth: 0,
+            }}
+          >
+            <option value="">All Types</option>
+            <option value="Safari">Safari</option>
+            <option value="Beach">Beach</option>
+            <option value="Mountain">Mountain</option>
+            <option value="Forest">Forest</option>
+            <option value="City">City</option>
           </select>
         </div>
-        <button className="btn-gold" style={{ padding: "0.9rem 2rem", fontWeight: 700, letterSpacing: "1px" }}>
+
+        <button
+          onClick={handleSearch}
+          className="btn-gold"
+          style={{
+            padding: "0.9rem 2rem",
+            fontWeight: 700, letterSpacing: "1px",
+          }}
+        >
           FIND NOW
         </button>
       </section>
@@ -128,7 +193,8 @@ export default function Home() {
           </p>
           <Link to="/about" className="btn-gold" style={{
             display: "inline-block", padding: "0.9rem 2rem",
-            textDecoration: "none", fontWeight: 700, letterSpacing: "1px", fontSize: "0.85rem",
+            textDecoration: "none", fontWeight: 700,
+            letterSpacing: "1px", fontSize: "0.85rem",
           }}>
             READ MORE
           </Link>
@@ -150,7 +216,8 @@ export default function Home() {
           </p>
           <h2 className="section-title" style={{
             fontFamily: "Georgia, serif",
-            marginBottom: "3rem", color: "#2b2b2b", lineHeight: 1.3, maxWidth: "600px",
+            marginBottom: "3rem", color: "#2b2b2b",
+            lineHeight: 1.3, maxWidth: "600px",
           }}>
             Choose The Destination Just Right For Your <strong>Vacation</strong>
           </h2>
@@ -189,7 +256,8 @@ export default function Home() {
           <div style={{ textAlign: "center", marginTop: "3rem" }}>
             <Link to="/trips" className="btn-gold" style={{
               display: "inline-block", padding: "0.9rem 2.5rem",
-              textDecoration: "none", fontWeight: 700, letterSpacing: "1px", fontSize: "0.85rem",
+              textDecoration: "none", fontWeight: 700,
+              letterSpacing: "1px", fontSize: "0.85rem",
             }}>
               VIEW ALL
             </Link>
