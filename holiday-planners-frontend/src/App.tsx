@@ -11,8 +11,10 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminTrips from "./pages/AdminTrips";
+import Contact from "./pages/Contact";
 import AdminTestimonials from "./pages/AdminTestimonials";
 const HomePage = Home as unknown as () => ReactElement;
+const ContactPage = Contact as unknown as () => ReactElement;
 const AboutPage = About as unknown as () => ReactElement;
 const TripsPage = Trips as unknown as () => ReactElement;
 const TourDetailsPage = TourDetails as unknown as () => ReactElement;
@@ -39,6 +41,7 @@ function App(): ReactElement {
           <Route path="/trips/:id" element={<TourDetailsPage />} />
           <Route path="/admin/login" element={<AdminLoginPage />} />
           <Route path="/admin/register" element={<AdminRegisterPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route
             path="/admin/dashboard"
             element={
