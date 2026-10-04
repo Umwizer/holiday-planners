@@ -11,33 +11,61 @@ type Testimonial = {
   source?: string;
 };
 
+const FALLBACK: Testimonial[] = [
+  {
+    id: "f1",
+    customerName: "Mathew A. Stephenson",
+    rating: 5,
+    quote:
+      "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.",
+    source: "Rated by travelers on Twitter",
+  },
+  {
+    id: "f2",
+    customerName: "Minh Chau",
+    rating: 5,
+    quote:
+      "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.",
+    source: "Rated by travelers on Instagram",
+  },
+  {
+    id: "f3",
+    customerName: "John Doe",
+    rating: 5,
+    quote:
+      "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.",
+    source: "Rated by travelers on Facebook",
+  },
+];
+
 export default function Testimonials() {
-  const [items, setItems] = useState<Testimonial[]>([]);
+  const [items, setItems] = useState<Testimonial[]>(FALLBACK);
   const [current, setCurrent] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
-
     const timer = setTimeout(() => {
-      if (!cancelled) {
-        setError("Backend is waking up — refresh in a minute.");
-        setLoading(false);
-      }
+      if (!cancelled) { /* keep fallback */ }
     }, 55000);
 
     getTestimonials()
-      .then((data: Testimonial[]) => { if (!cancelled) setItems(data); })
-      .catch(e => { if (!cancelled) setError(e.message); })
-      .finally(() => {
-        if (!cancelled) {
-          clearTimeout(timer);
-          setLoading(false);
+      .then((data: Testimonial[]) => {
+        if (cancelled) return;
+        if (Array.isArray(data) && data.length > 0) {
+          setItems(data);
         }
+      })
+      .catch(() => {
+        // keep fallback
+      })
+      .finally(() => {
+        if (!cancelled) clearTimeout(timer);
       });
 
-    return () => { cancelled = true; clearTimeout(timer); };
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
@@ -46,15 +74,12 @@ export default function Testimonials() {
     return () => clearInterval(id);
   }, [items.length]);
 
-  if (loading) return <p style={{ padding: "3rem", textAlign: "center" }}>Loading reviews…</p>;
-  if (error) return <p style={{ padding: "3rem", textAlign: "center", color: "red" }}>{error}</p>;
   if (items.length === 0) return null;
 
   const t = items[current];
 
   return (
     <section className="testimonials-wrap">
-      {/* Gold left panel */}
       <div style={{ position: "relative" }}>
         <div style={{
           background: "#c19a5b", color: "#fff", padding: "2.5rem 2rem",
@@ -78,25 +103,13 @@ export default function Testimonials() {
         </div>
       </div>
 
-      {/* Right content */}
       <div className="testimonials-right" style={{
         background: "#fff",
         display: "flex", flexDirection: "column", justifyContent: "center",
         boxShadow: "0 5px 30px rgba(0,0,0,0.06)",
       }}>
-        {t.photoUrl && (
-          <img
-            src={t.photoUrl}
-            alt={t.customerName}
-            style={{
-              width: "60px", height: "60px", borderRadius: "50%",
-              objectFit: "cover", marginBottom: "1rem",
-            }}
-          />
-        )}
-
-        <div style={{ display: "flex", gap: "0.3rem", marginBottom: "1.5rem" }}>
-          {Array.from({ length: t.rating || 0 }).map((_, i) => (
+        <div style={{ display: "flex", gap: "0.4rem", marginBottom: "1.5rem" }}>
+          {Array.from({ length: t.rating || 5 }).map((_, i) => (
             <FaStar key={i} style={{ color: "#c19a5b", fontSize: "1.2rem" }} />
           ))}
         </div>
@@ -124,12 +137,17 @@ export default function Testimonials() {
 
         <div style={{ display: "flex", gap: "0.6rem" }}>
           {items.map((_, i) => (
-            <button key={i} onClick={() => setCurrent(i)} style={{
-              width: "12px", height: "12px", borderRadius: "50%",
-              border: "2px solid #c19a5b",
-              background: i === current ? "#c19a5b" : "transparent",
-              cursor: "pointer", padding: 0,
-            }} />
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              aria-label={`Show review ${i + 1}`}
+              style={{
+                width: "12px", height: "12px", borderRadius: "50%",
+                border: "2px solid #c19a5b",
+                background: i === current ? "#c19a5b" : "transparent",
+                cursor: "pointer", padding: 0,
+              }}
+            />
           ))}
         </div>
       </div>
