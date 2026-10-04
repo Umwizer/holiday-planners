@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   FaSignOutAlt, FaCalendarCheck, FaClock, FaCheckCircle, FaTimesCircle,
 } from "react-icons/fa";
@@ -42,7 +42,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     getBookings()
       .then((data: Booking[]) => setBookings(Array.isArray(data) ? data : []))
-      .catch(e => setError(e.message))
+      .catch((e: Error) => setError(e.message))
       .finally(() => setLoading(false));
   }, []);
 
@@ -87,15 +87,29 @@ export default function AdminDashboard() {
             Welcome back, <span style={{ color: "#c19a5b" }}>{user}</span>
           </h1>
         </div>
-        <button onClick={logout} className="btn-gold" style={{
-          padding: "0.8rem 1.5rem", fontWeight: 600, letterSpacing: "1px",
-          display: "flex", alignItems: "center", gap: "0.6rem", fontSize: "0.85rem",
-        }}>
-          <FaSignOutAlt /> LOGOUT
-        </button>
+
+        {/* Actions */}
+        <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
+          <Link to="/admin/trips" className="btn-gold" style={{
+            padding: "0.8rem 1.2rem", textDecoration: "none",
+            fontWeight: 600, fontSize: "0.8rem", letterSpacing: "1px",
+          }}>MANAGE TRIPS</Link>
+
+          <Link to="/admin/testimonials" className="btn-gold" style={{
+            padding: "0.8rem 1.2rem", textDecoration: "none",
+            fontWeight: 600, fontSize: "0.8rem", letterSpacing: "1px",
+          }}>MANAGE REVIEWS</Link>
+
+          <button onClick={logout} className="btn-gold" style={{
+            padding: "0.8rem 1.2rem", fontWeight: 600, letterSpacing: "1px",
+            display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.8rem",
+          }}>
+            <FaSignOutAlt /> LOGOUT
+          </button>
+        </div>
       </div>
 
-      {/* Stat cards — pure inline grid, horizontal on desktop */}
+      {/* Stat cards */}
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
