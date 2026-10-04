@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaMapMarkerAlt, FaCalendarAlt, FaFlag } from "react-icons/fa";
 import TrendingTours from "../components/TrendingTours";
 import Testimonials from "../components/Testimonial";
+import { getTrips } from "../api";
 
 const heroImages = [
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600",
@@ -10,18 +11,40 @@ const heroImages = [
   "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1600",
 ];
 
+type TripImage = { imageCover: string; isCover: boolean };
+
+type Trip = {
+  id: string;
+  title: string;
+  description: string;
+  destination: string;
+  price: number;
+  discountPercent: number;
+  durationDays: number;
+  tripImages?: TripImage[];
+};
+
 export default function Home() {
   const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
+
+  // Hero slideshow
+  useEffect(() => {
+    const id = setInterval(() => setCurrent(c => (c + 1) % heroImages.length), 4000);
+    return () => clearInterval(id);
+  }, []);
 
   // Search state
   const [destination, setDestination] = useState("");
   const [duration, setDuration] = useState("");
   const [travelType, setTravelType] = useState("");
 
+  // Trips for destinations section
+  const [trips, setTrips] = useState<Trip[]>([]);
   useEffect(() => {
-    const id = setInterval(() => setCurrent(c => (c + 1) % heroImages.length), 4000);
-    return () => clearInterval(id);
+    getTrips()
+      .then((data: Trip[]) => setTrips(Array.isArray(data) ? data : []))
+      .catch(() => {});
   }, []);
 
   const handleSearch = () => {
@@ -222,36 +245,35 @@ export default function Home() {
             Choose The Destination Just Right For Your <strong>Vacation</strong>
           </h2>
 
-          <div className="destinations-grid">
-            {[
-              { name: "Thailand", img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800" },
-              { name: "Switzerland", img: "https://images.unsplash.com/photo-1531210483974-4f8c1f33fd35?w=800" },
-              { name: "India", img: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800" },
-            ].map(dest => (
-              <div key={dest.name} className="destination-card" style={{
-                position: "relative", overflow: "hidden", cursor: "pointer",
-              }}>
-                <img
-                  src={dest.img}
-                  alt={dest.name}
-                  style={{
-                    width: "100%", height: "100%", objectFit: "cover",
-                    transition: "transform 0.5s",
-                  }}
-                  onMouseOver={e => (e.currentTarget.style.transform = "scale(1.08)")}
-                  onMouseOut={e => (e.currentTarget.style.transform = "scale(1)")}
-                />
-                <div style={{
-                  position: "absolute", bottom: "20px", left: "20px",
-                  background: "#fff", padding: "0.6rem 1.2rem",
-                  fontFamily: "Georgia, serif", fontSize: "1.1rem",
-                  color: "#2b2b2b", boxShadow: "0 5px 20px rgba(0,0,0,0.15)",
-                }}>
-                  {dest.name}
-                </div>
-              </div>
-            ))}
-          </div>
+          {trips.length === 0 ? (
+            <p style={{ color: "#888" }}>Loading destinations…</p>
+          ) : (
+            <div className="destinations-grid">
+              {trips.slice(0, 3).map(t => {
+                const img =
+                  t.tripImages?.find(i => i.isCover)?.imageCover ??
+                  t.tripImages?.[0]?.imageCover ??
+                  "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800";
+
+                const label = (t.destination || t.title || "").split(",")[0].trim();
+
+                return (
+                  <Link key={t.id} to={`/trips/${t.id}`} className="dest-card">
+                    <img src={img} alt={label} className="dest-card-img" />
+
+                    <div className="dest-card-overlay" />
+
+                    <div className="dest-card-label">
+                      <span className="dest-card-name">{label}</span>
+                      <span className="dest-card-price">From ${t.price}</span>
+                    </div>
+
+                    <div className="dest-card-arrow">→</div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
 
           <div style={{ textAlign: "center", marginTop: "3rem" }}>
             <Link to="/trips" className="btn-gold" style={{
