@@ -1,79 +1,155 @@
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
-  FaEnvelope, FaPhoneAlt, FaFacebookF, FaInstagram, FaTwitter,
-  FaSearch, FaBars, FaMapMarkerAlt,
+  FaRegEnvelope, FaPhoneAlt, FaFacebookF, FaInstagram, FaTwitter,
+  FaSearch, FaTimes,
 } from "react-icons/fa";
+import Logo from "./Logo";
 
-const GOLD = "#c19a5b";
-const DARK = "#2b2b2b";
+// Edit these to match your routes
+const LINKS = [
+  { to: "/", label: "Home" },
+  { to: "/trips", label: "Trips" },
+  { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
+  { to: "/admin/login", label: "Admin" },
+];
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const searchInput = useRef<HTMLInputElement>(null);
+
+  const closeAll = () => {
+    setMenuOpen(false);
+    setSearchOpen(false);
+  };
+
+  // Esc closes, and the page behind doesn't scroll while something is open
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeAll();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen || searchOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen, searchOpen]);
+
+  useEffect(() => {
+    if (searchOpen) searchInput.current?.focus();
+  }, [searchOpen]);
+
+  // Goes to /trips?search=... (read it on the Trips page with useSearchParams)
+  const runSearch = (e: FormEvent) => {
+    e.preventDefault();
+    const q = query.trim();
+    if (!q) return;
+    navigate(`/trips?search=${encodeURIComponent(q)}`);
+    setQuery("");
+    closeAll();
+  };
+
   return (
-    <header>
-      {/* Top strip */}
-      <div style={{
-        background: DARK, color: "#fff", fontSize: "0.85rem",
-        display: "flex", justifyContent: "space-between",
-        alignItems: "center", padding: "0.6rem 4rem"
-      }}>
-        <div style={{ display: "flex", gap: "2rem" }}>
-          <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <FaEnvelope /> holidayplanners@gmail.com
-          </span>
-          <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <FaPhoneAlt /> +123 456 7890
-          </span>
-        </div>
-        <div style={{ display: "flex", gap: "1.2rem" }}>
-          <a href="#" style={{ color: "#fff" }}><FaFacebookF /></a>
-          <a href="#" style={{ color: "#fff" }}><FaInstagram /></a>
-          <a href="#" style={{ color: "#fff" }}><FaTwitter /></a>
+    <header className="nav-header">
+      {/* Top bar */}
+      <div className="nav-top-bar">
+        <div className="nav-top-inner">
+          <div className="nav-contacts">
+            <span><FaRegEnvelope /> holidayplanners@gmail.com</span>
+            <span className="nav-phone"><FaPhoneAlt /> +123 456 7890</span>
+          </div>
+          <div className="nav-socials">
+            <a href="#" aria-label="Facebook"><FaFacebookF /></a>
+            <a href="#" aria-label="Instagram"><FaInstagram /></a>
+            <a href="#" aria-label="Twitter"><FaTwitter /></a>
+          </div>
         </div>
       </div>
 
-      {/* Main bar */}
-      <nav style={{
-        background: "#fff", display: "flex", alignItems: "center",
-        justifyContent: "space-between", padding: "0.9rem 4rem",
-        boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-        position: "sticky", top: 0, zIndex: 100
-      }}>
-        <Link to="/" style={{ display: "flex", alignItems: "center", gap: "0.6rem", textDecoration: "none" }}>
-          <FaMapMarkerAlt style={{ color: GOLD, fontSize: "1.8rem" }} />
-          <span style={{ fontWeight: 700, fontSize: "1.5rem", color: DARK }}>
-            Holiday <span style={{ color: GOLD }}>Planners</span>
-          </span>
+      {/* Main nav (floating card) */}
+      <nav className="nav-main">
+        <Link to="/" className="nav-logo" onClick={closeAll}>
+          <Logo />
         </Link>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Link to="/admin/login" style={{
-            color: DARK, textDecoration: "none", fontWeight: 600,
-            fontSize: "0.85rem", letterSpacing: "1px", padding: "0.8rem 0.5rem"
-          }}>
-            ADMIN
-          </Link>
-          <Link to="/trips" className="btn-gold" style={{
-            padding: "0.8rem 1.8rem", textDecoration: "none",
-            fontWeight: 600, letterSpacing: "1px", fontSize: "0.85rem"
-          }}>
-            RESERVE
-          </Link>
-          <button aria-label="Search" style={{
-            background: "transparent", border: `2px solid ${DARK}`,
-            borderRadius: "50%", width: "42px", height: "42px",
-            cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"
-          }}>
+        <div className="nav-actions">
+          <Link to="/admin/login" className="nav-admin">ADMIN</Link>
+          <Link to="/trips" className="btn-gold nav-reserve">RESERVE</Link>
+          <button
+            aria-label="Search"
+            className="nav-search-btn"
+            onClick={() => { setMenuOpen(false); setSearchOpen(true); }}
+          >
             <FaSearch />
           </button>
-          <button aria-label="Menu" style={{
-            background: GOLD, border: "none", borderRadius: "50%",
-            width: "42px", height: "42px", cursor: "pointer", color: "#fff",
-            display: "flex", alignItems: "center", justifyContent: "center"
-          }}>
-            <FaBars />
+          <button
+            aria-label="Open menu"
+            className="nav-menu-btn"
+            onClick={() => { setSearchOpen(false); setMenuOpen(true); }}
+          >
+            <span className="burger"><i /><i /><i /></span>
           </button>
         </div>
       </nav>
+
+      {/* Search overlay */}
+      <div className={`search-overlay ${searchOpen ? "open" : ""}`} onClick={closeAll}>
+        <button className="overlay-close" aria-label="Close search" onClick={closeAll}>
+          <FaTimes />
+        </button>
+        <form className="search-overlay-form" onClick={(e) => e.stopPropagation()} onSubmit={runSearch}>
+          <input
+            ref={searchInput}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search trips, destinations..."
+            aria-label="Search"
+          />
+          <button type="submit" className="btn-gold" aria-label="Submit search"><FaSearch /></button>
+        </form>
+      </div>
+
+      {/* Menu drawer */}
+      <div className={`menu-backdrop ${menuOpen ? "open" : ""}`} onClick={closeAll} />
+      <aside className={`menu-drawer ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
+        <button className="menu-close" aria-label="Close menu" onClick={closeAll}>
+          <FaTimes />
+        </button>
+
+        <div className="menu-logo"><Logo /></div>
+
+        <form className="menu-search" onSubmit={runSearch}>
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search..."
+            aria-label="Search"
+          />
+          <button type="submit" aria-label="Submit search"><FaSearch /></button>
+        </form>
+
+        <ul className="menu-links">
+          {LINKS.map((l) => (
+            <li key={l.to}>
+              <Link to={l.to} onClick={closeAll}>{l.label}</Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="menu-info">
+          <span><FaRegEnvelope /> holidayplanners@gmail.com</span>
+          <span><FaPhoneAlt /> +123 456 7890</span>
+        </div>
+        <div className="menu-socials">
+          <a href="#" aria-label="Facebook"><FaFacebookF /></a>
+          <a href="#" aria-label="Instagram"><FaInstagram /></a>
+          <a href="#" aria-label="Twitter"><FaTwitter /></a>
+        </div>
+      </aside>
     </header>
   );
 }

@@ -18,10 +18,26 @@ export default function Testimonials() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    let cancelled = false;
+
+    const timer = setTimeout(() => {
+      if (!cancelled) {
+        setError("Backend is waking up — refresh in a minute.");
+        setLoading(false);
+      }
+    }, 55000);
+
     getTestimonials()
-      .then((data: Testimonial[]) => setItems(data))
-      .catch(e => setError(e.message))
-      .finally(() => setLoading(false));
+      .then((data: Testimonial[]) => { if (!cancelled) setItems(data); })
+      .catch(e => { if (!cancelled) setError(e.message); })
+      .finally(() => {
+        if (!cancelled) {
+          clearTimeout(timer);
+          setLoading(false);
+        }
+      });
+
+    return () => { cancelled = true; clearTimeout(timer); };
   }, []);
 
   useEffect(() => {
@@ -37,79 +53,65 @@ export default function Testimonials() {
   const t = items[current];
 
   return (
-    <section style={{
-      display: "grid", gridTemplateColumns: "1fr 1.6fr",
-      maxWidth: "1200px", margin: "4rem auto",
-      padding: "0 2rem", alignItems: "stretch", minHeight: "480px"
-    }}>
+    <section className="testimonials-wrap">
       {/* Gold left panel */}
       <div style={{ position: "relative" }}>
         <div style={{
           background: "#c19a5b", color: "#fff", padding: "2.5rem 2rem",
-          width: "100%"
         }}>
           <p style={{
             borderLeft: "3px solid #fff", paddingLeft: "0.8rem",
-            fontSize: "0.95rem", marginBottom: "0.8rem", opacity: 0.95
+            fontSize: "0.95rem", marginBottom: "0.8rem", opacity: 0.95,
           }}>
             Testimonials
           </p>
           <h2 style={{
             fontFamily: "Georgia, serif", fontSize: "2.4rem",
-            margin: 0, lineHeight: 1.3
+            margin: 0, lineHeight: 1.3,
           }}>
             Customer Reviews
           </h2>
         </div>
 
-        <div style={{
-          background: "#fff", padding: "2rem",
-          height: "calc(100% - 140px)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 5px 30px rgba(0,0,0,0.06)"
-        }}>
-          <FaQuoteLeft style={{ fontSize: "10rem", color: "#c19a5b", opacity: 0.9 }} />
+        <div className="testimonials-left-quote">
+          <FaQuoteLeft className="testimonials-quote-icon" />
         </div>
       </div>
 
       {/* Right content */}
-      <div style={{
-        background: "#fff", padding: "3rem",
+      <div className="testimonials-right" style={{
+        background: "#fff",
         display: "flex", flexDirection: "column", justifyContent: "center",
-        boxShadow: "0 5px 30px rgba(0,0,0,0.06)"
+        boxShadow: "0 5px 30px rgba(0,0,0,0.06)",
       }}>
-        {/* Photo (if exists) */}
         {t.photoUrl && (
           <img
             src={t.photoUrl}
             alt={t.customerName}
             style={{
               width: "60px", height: "60px", borderRadius: "50%",
-              objectFit: "cover", marginBottom: "1rem"
+              objectFit: "cover", marginBottom: "1rem",
             }}
           />
         )}
 
-        {/* Stars */}
         <div style={{ display: "flex", gap: "0.3rem", marginBottom: "1.5rem" }}>
           {Array.from({ length: t.rating || 0 }).map((_, i) => (
             <FaStar key={i} style={{ color: "#c19a5b", fontSize: "1.2rem" }} />
           ))}
         </div>
 
-        {/* Quote */}
         <p style={{
           fontFamily: "Georgia, serif", fontSize: "1.15rem",
-          lineHeight: 1.9, color: "#2b2b2b", marginBottom: "2rem"
+          lineHeight: 1.9, color: "#2b2b2b", marginBottom: "2rem",
         }}>
           {t.quote}
         </p>
 
-        {/* Author */}
         <div style={{ marginBottom: "2rem" }}>
           <p style={{
             fontFamily: "Georgia, serif", fontSize: "1.3rem",
-            color: "#c19a5b", margin: 0, fontWeight: 500
+            color: "#c19a5b", margin: 0, fontWeight: 500,
           }}>
             {t.customerName}
           </p>
@@ -120,14 +122,13 @@ export default function Testimonials() {
           )}
         </div>
 
-        {/* Dots */}
         <div style={{ display: "flex", gap: "0.6rem" }}>
           {items.map((_, i) => (
             <button key={i} onClick={() => setCurrent(i)} style={{
               width: "12px", height: "12px", borderRadius: "50%",
               border: "2px solid #c19a5b",
               background: i === current ? "#c19a5b" : "transparent",
-              cursor: "pointer", padding: 0
+              cursor: "pointer", padding: 0,
             }} />
           ))}
         </div>

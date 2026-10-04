@@ -16,3 +16,25 @@ export async function getTestimonials() {
   if (!res.ok) throw new Error("Failed to load testimonials");
   return res.json();
 }
+export async function getBookings() {
+  const token = localStorage.getItem("adminToken");
+  const res = await fetch(`${API_BASE}/api/bookings`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+  if (!res.ok) throw new Error("Failed to load bookings");
+  return res.json();
+}
+
+export async function updateBookingStatus(bookingId: string, status: string) {
+  const token = localStorage.getItem("adminToken");
+  const res = await fetch(`${API_BASE}/api/bookings/${bookingId}/status`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify({ status }),
+  });
+  if (!res.ok) throw new Error("Failed to update status");
+  return res.json();
+}

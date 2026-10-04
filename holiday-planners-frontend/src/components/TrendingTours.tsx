@@ -79,29 +79,28 @@ export default function TrendingTours() {
   const next = () => setStart(s => Math.min(maxStart, s + 1));
 
   return (
-    <section style={{
-      padding: "4rem 2rem",
-      background: "#f7f7f7",
-      backgroundImage: "radial-gradient(#e5e5e5 1px, transparent 1px)",
-      backgroundSize: "20px 20px"
-    }}>
+    <section
+      className="trending-section"
+      style={{
+        background: "#f7f7f7",
+        backgroundImage: "radial-gradient(#e5e5e5 1px, transparent 1px)",
+        backgroundSize: "20px 20px",
+      }}
+    >
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         {/* Header row */}
-        <div style={{
-          display: "flex", justifyContent: "space-between",
-          alignItems: "flex-start", marginBottom: "3rem", flexWrap: "wrap", gap: "1rem"
-        }}>
+        <div className="trending-header">
           <div>
             <p style={{
               color: "#c19a5b", marginBottom: "0.8rem",
               borderLeft: "3px solid #c19a5b", paddingLeft: "0.8rem",
-              fontSize: "0.95rem", fontWeight: 500
+              fontSize: "0.95rem", fontWeight: 500,
             }}>
               Amazing Tours
             </p>
-            <h2 style={{
-              fontFamily: "Georgia, serif", fontSize: "2.6rem",
-              color: "#2b2b2b", lineHeight: 1.3, maxWidth: "560px", margin: 0
+            <h2 className="section-title" style={{
+              fontFamily: "Georgia, serif",
+              color: "#2b2b2b", lineHeight: 1.3, maxWidth: "560px", margin: 0,
             }}>
               Trending, <strong>Best Selling Tours</strong> And Fun Destinations
             </h2>
@@ -111,29 +110,25 @@ export default function TrendingTours() {
             <button onClick={prev} disabled={start === 0} className="btn-gold" style={{
               padding: "0.7rem 1.6rem", fontWeight: 600,
               opacity: start === 0 ? 0.5 : 1,
-              cursor: start === 0 ? "not-allowed" : "pointer"
+              cursor: start === 0 ? "not-allowed" : "pointer",
             }}>Prev</button>
             <button onClick={next} disabled={start >= maxStart} className="btn-gold" style={{
               padding: "0.7rem 1.6rem", fontWeight: 600,
               opacity: start >= maxStart ? 0.5 : 1,
-              cursor: start >= maxStart ? "not-allowed" : "pointer"
+              cursor: start >= maxStart ? "not-allowed" : "pointer",
             }}>Next</button>
           </div>
         </div>
 
         {/* Cards */}
-        <div style={{
-          display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "2rem", overflow: "hidden"
-        }}>
+        <div className="trending-grid" style={{ overflow: "hidden" }}>
           {tours.slice(start, start + visible).map(tour => (
             <article key={tour.id} style={{
               background: "#fff",
               boxShadow: "0 5px 20px rgba(0,0,0,0.06)",
               overflow: "hidden", position: "relative",
-              display: "flex", flexDirection: "column"
+              display: "flex", flexDirection: "column",
             }}>
-              {/* Image + overlays */}
               <div style={{ position: "relative", height: "240px", overflow: "hidden" }}>
                 <img src={tour.image} alt={tour.country}
                   style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -142,7 +137,7 @@ export default function TrendingTours() {
                   <div style={{
                     position: "absolute", top: "1rem", left: "1rem",
                     background: "#c19a5b", color: "#fff",
-                    padding: "0.4rem 0.7rem", fontSize: "0.8rem", fontWeight: 600
+                    padding: "0.4rem 0.7rem", fontSize: "0.8rem", fontWeight: 600,
                   }}>
                     {tour.discount}% off
                   </div>
@@ -152,17 +147,16 @@ export default function TrendingTours() {
                   position: "absolute", bottom: "1rem", left: "1rem",
                   background: "#c19a5b", color: "#fff",
                   padding: "0.5rem 1.2rem", fontWeight: 700,
-                  fontSize: "0.9rem", letterSpacing: "1px"
+                  fontSize: "0.9rem", letterSpacing: "1px",
                 }}>
                   {tour.country}
                 </div>
               </div>
 
-              {/* Content */}
               <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", flex: 1 }}>
                 <h3 style={{
                   fontFamily: "Georgia, serif", fontSize: "1.15rem",
-                  lineHeight: 1.4, color: "#2b2b2b", marginBottom: "0.8rem"
+                  lineHeight: 1.4, color: "#2b2b2b", marginBottom: "0.8rem",
                 }}>
                   {tour.title}
                 </h3>
@@ -170,16 +164,15 @@ export default function TrendingTours() {
                   color: "#777", fontSize: "0.88rem", lineHeight: 1.6,
                   marginBottom: "1.5rem", flex: 1,
                   display: "-webkit-box", WebkitLineClamp: 3,
-                  WebkitBoxOrient: "vertical", overflow: "hidden"
+                  WebkitBoxOrient: "vertical", overflow: "hidden",
                 }}>
                   {tour.description}
                 </p>
 
-                {/* Meta */}
                 <div style={{
                   display: "grid", gridTemplateColumns: "1fr 1fr",
                   borderTop: "1px solid #eee", borderBottom: "1px solid #eee",
-                  padding: "1rem 0", marginBottom: "1rem", gap: "1rem"
+                  padding: "1rem 0", marginBottom: "1rem", gap: "1rem",
                 }}>
                   <div style={{ display: "flex", gap: "0.6rem", alignItems: "center" }}>
                     <FaClock style={{ color: "#c19a5b", fontSize: "1.1rem" }} />
@@ -201,19 +194,18 @@ export default function TrendingTours() {
                   </div>
                 </div>
 
-                {/* Price + Book */}
                 <div style={{
-                  display: "flex", justifyContent: "space-between", alignItems: "center"
+                  display: "flex", justifyContent: "space-between", alignItems: "center",
                 }}>
                   <div style={{
                     fontFamily: "Georgia, serif", fontSize: "1.5rem",
-                    color: "#2b2b2b", fontWeight: 700
+                    color: "#2b2b2b", fontWeight: 700,
                   }}>
                     ${tour.price}
                   </div>
                   <Link to={`/trips/${tour.id}`} className="btn-gold" style={{
                     padding: "0.7rem 1.5rem", textDecoration: "none",
-                    fontWeight: 700, fontSize: "0.8rem", letterSpacing: "1px"
+                    fontWeight: 700, fontSize: "0.8rem", letterSpacing: "1px",
                   }}>
                     BOOK NOW
                   </Link>
@@ -226,14 +218,14 @@ export default function TrendingTours() {
         {/* Dots */}
         <div style={{
           display: "flex", justifyContent: "center",
-          gap: "0.6rem", marginTop: "2.5rem"
+          gap: "0.6rem", marginTop: "2.5rem",
         }}>
           {Array.from({ length: maxStart + 1 }).map((_, i) => (
             <button key={i} onClick={() => setStart(i)} style={{
               width: "12px", height: "12px", borderRadius: "50%",
               border: "2px solid #c19a5b",
               background: i === start ? "#c19a5b" : "transparent",
-              cursor: "pointer", padding: 0
+              cursor: "pointer", padding: 0,
             }} />
           ))}
         </div>
