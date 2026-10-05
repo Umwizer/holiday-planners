@@ -1,121 +1,84 @@
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
+async function request(
+  path: string,
+  opts: { method?: string; body?: unknown; auth?: boolean } = {}
+) {
+  const { method = "GET", body, auth = false } = opts;
+  const token = localStorage.getItem("adminToken");
+
+  const headers: Record<string, string> = {};
+  if (body !== undefined) headers["Content-Type"] = "application/json";
+  if (auth && token) headers.Authorization = `Bearer ${token}`;
+
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}${path}`, {
+      method,
+      headers,
+      body: body !== undefined ? JSON.stringify(body) : undefined,
+    });
+  } catch {
+    // fetch only throws when the browser blocks it (usually CORS) or the server is down
+    throw new Error("Cannot reach the server. Check that it is running and that CORS allows this method.");
+  }
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`${res.status}: ${text || res.statusText || "Request failed"}`);
+  }
+
+  // Some endpoints (DELETE, PATCH) return an empty body. Calling res.json() on
+  // an empty body throws, so read it as text first.
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
 /* ---------- Public ---------- */
-export async function getTrips() {
-  const res = await fetch(`${API_BASE}/api/trips`);
-  if (!res.ok) throw new Error("Failed to load trips");
-  return res.json();
-}
+export const getTrips = () => request("/api/trips");
+export const getTrip = (id: string | number) => request(`/api/trips/${id}`);
+export const getTestimonials = () => request("/api/testimonials");
 
-export async function getTrip(id: string | number) {
-  const res = await fetch(`${API_BASE}/api/trips/${id}`);
-  if (!res.ok) throw new Error("Failed to load trip");
-  return res.json();
-}
-
-export async function getTestimonials() {
-  const res = await fetch(`${API_BASE}/api/testimonials`);
-  if (!res.ok) throw new Error("Failed to load testimonials");
-  return res.json();
-}
-
-/* ---------- Admin (JWT) ---------- */
-export async function getBookings() {
-  const token = localStorage.getItem("adminToken");
-  const res = await fetch(`${API_BASE}/api/bookings`, {
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
+export const createBooking = (
+  tripId: string,
+  data: {
+    customerName: string;
+    email: string;
+    phone: string;
+    travelDate: string;
+    numberOfPeople: number;
+  }
+) =>
+  request(`/api/trips/${tripId}/bookings`, {
+    method: "POST",
+    body: { ...data, status: "PENDING" },
   });
-  if (!res.ok) throw new Error("Failed to load bookings");
-  return res.json();
-}
 
-export async function updateBookingStatus(bookingId: string, status: string) {
-  const token = localStorage.getItem("adminToken");
-  const res = await fetch(`${API_BASE}/api/bookings/${bookingId}/status`, {
+/* ---------- Admin: bookings ---------- */
+export const getBookings = () => request("/api/bookings", { auth: true });
+
+export const updateBookingStatus = (bookingId: string, status: string) =>
+  request(`/api/bookings/${bookingId}/status`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify({ status }),
+    body: { status },
+    auth: true,
   });
-  if (!res.ok) throw new Error("Failed to update status");
-  return res.json();
-}
-/* ---------- Trips (admin CRUD) ---------- */
-export async function createTrip(data: any) {
-  const token = localStorage.getItem("adminToken");
-  const res = await fetch(`${API_BASE}/api/trips`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error("Failed to create trip");
-  return res.json();
-}
 
-export async function updateTrip(id: string, data: any) {
-  const token = localStorage.getItem("adminToken");
-  const res = await fetch(`${API_BASE}/api/trips/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error("Failed to update trip");
-  return res.json();
-}
+export const deleteBooking = (bookingId: string) =>
+  request(`/api/bookings/${bookingId}`, { method: "DELETE", auth: true });
 
-export async function deleteTrip(id: string) {
-  const token = localStorage.getItem("adminToken");
-  const res = await fetch(`${API_BASE}/api/trips/${id}`, {
-    method: "DELETE",
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-  });
-  if (!res.ok) throw new Error("Failed to delete trip");
-}
+/* ---------- Admin: trips ---------- */
+export const createTrip = (data: any) =>
+  request("/api/trips", { method: "POST", body: data, auth: true });
 
-/* ---------- Testimonials (admin CRUD) ---------- */
-export async function createTestimonial(data: any) {
-  const token = localStorage.getItem("adminToken");
-  const res = await fetch(`${API_BASE}/api/testimonials`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error("Failed to create testimonial");
-  return res.json();
-}
+export const updateTrip = (id: string, data: any) =>
+  request(`/api/trips/${id}`, { method: "PUT", body: data, auth: true });
 
-export async function deleteTestimonial(id: string) {
-  const token = localStorage.getItem("adminToken");
-  const res = await fetch(`${API_BASE}/api/testimonials/${id}`, {
-    method: "DELETE",
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-  });
-  if (!res.ok) throw new Error("Failed to delete testimonial");
-}
-/* ---------- Public booking ---------- */
-export async function createBooking(tripId: string, data: {
-  customerName: string;
-  email: string;
-  phone: string;
-  travelDate: string;
-  numberOfPeople: number;
-}) {
-  const res = await fetch(`${API_BASE}/api/trips/${tripId}/bookings`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...data, status: "PENDING" }),
-  });
-  if (!res.ok) throw new Error(await res.text());
-  return res.json();
-}
+export const deleteTrip = (id: string) =>
+  request(`/api/trips/${id}`, { method: "DELETE", auth: true });
+
+export const createTestimonial = (data: any) =>
+  request("/api/testimonials", { method: "POST", body: data, auth: true });
+
+export const deleteTestimonial = (id: string) =>
+  request(`/api/testimonials/${id}`, { method: "DELETE", auth: true });
