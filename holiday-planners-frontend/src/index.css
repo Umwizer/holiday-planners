@@ -726,3 +726,43 @@ img { max-width: 100%; height: auto; }
     position: static !important;
   }
 }
+/* ========== ADMIN ANALYTICS GRIDS ========== */
+.admin-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.admin-charts-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.admin-lower-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 1000px) {
+  .admin-charts-grid,
+  .admin-lower-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-grid-4 {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.8rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-grid-4 {
+    grid-template-columns: 1fr !important;
+  }
+}
